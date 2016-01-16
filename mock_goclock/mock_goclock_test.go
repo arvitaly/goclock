@@ -16,7 +16,7 @@ func TestSleep(t *testing.T) {
 	<-done
 	clock.Force(time.Second * 11)
 	select {
-	case <-time.After(time.Nanosecond):
+	case <-time.After(time.Second):
 		t.Error("Timeout")
 	case <-done:
 
