@@ -44,7 +44,6 @@ func (_m *MockClock) callScheduleds() {
 	for _, v := range _m.scheduleds {
 
 		if _m.now.After(v.startTime.Add(v.duration)) {
-
 			v.ready <- true
 		} else {
 			newScheduleds = append(newScheduleds, v)

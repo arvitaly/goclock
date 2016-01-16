@@ -16,7 +16,7 @@ func TestSleep(t *testing.T) {
 	<-done
 	clock.Force(time.Second * 11)
 	select {
-	case <-time.After(time.Second):
+	case <-time.After(time.Nanosecond):
 		t.Error("Timeout")
 	case <-done:
 
@@ -28,7 +28,7 @@ func TestAfter(t *testing.T) {
 	var done = clock.After(time.Second * 1000)
 	clock.Force(time.Second * 1100)
 	select {
-	case <-time.After(time.Second):
+	case <-time.After(time.Nanosecond):
 		t.Error("Timeout")
 	case <-done:
 
@@ -37,7 +37,7 @@ func TestAfter(t *testing.T) {
 	done = clock.After(time.Second * 1000)
 	clock.Force(time.Second * 900)
 	select {
-	case <-time.After(time.Second):
+	case <-time.After(time.Nanosecond):
 
 	case <-done:
 		t.Error("After don't be complete")

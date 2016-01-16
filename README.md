@@ -1,6 +1,8 @@
 Goclock
 Adapter for package "time" by interface with mocks
 
+[![Build Status](https://travis-ci.org/arvitaly/goclock.svg?branch=master)](https://travis-ci.org/arvitaly/goclock)
+
 Example:
 
 func TestAfter(t *testing.T) {
