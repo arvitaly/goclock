@@ -2,6 +2,15 @@ package goclock
 
 import "time"
 
+type Ticker interface {
+	Stop()
+}
+
+type Timer interface {
+	Reset(d time.Duration) bool
+	Stop() bool
+}
+
 type Clock interface {
 	After(d time.Duration) <-chan time.Time
 	Sleep(d time.Duration)
@@ -13,15 +22,15 @@ type Clock interface {
 	FixedZone(name string, offset int) *time.Location
 	LoadLocation(name string) (*time.Location, error)
 
-	NewTicker(d time.Duration) *time.Ticker
+	NewTicker(d time.Duration) Ticker
 
 	Date(year int, month time.Month, day, hour, min, sec, nsec int, loc *time.Location) time.Time
 	Parse(layout, value string) (time.Time, error)
 	ParseInLocation(layout, value string, loc *time.Location) (time.Time, error)
 	Unix(sec int64, nsec int64) time.Time
 
-	AfterFunc(d time.Duration, f func()) *time.Timer
-	NewTimer(d time.Duration) *time.Timer
+	AfterFunc(d time.Duration, f func()) Timer
+	NewTimer(d time.Duration) Timer
 
 	Now() time.Time
 }
@@ -56,7 +65,7 @@ func (c _Clock) LoadLocation(name string) (*time.Location, error) {
 	return time.LoadLocation(name)
 }
 
-func (c _Clock) NewTicker(d time.Duration) *time.Ticker {
+func (c _Clock) NewTicker(d time.Duration) Ticker {
 	return time.NewTicker(d)
 }
 
@@ -73,10 +82,10 @@ func (c _Clock) Unix(sec int64, nsec int64) time.Time {
 	return time.Unix(sec, nsec)
 }
 
-func (c _Clock) AfterFunc(d time.Duration, f func()) *time.Timer {
+func (c _Clock) AfterFunc(d time.Duration, f func()) Timer {
 	return time.AfterFunc(d, f)
 }
-func (c _Clock) NewTimer(d time.Duration) *time.Timer {
+func (c _Clock) NewTimer(d time.Duration) Timer {
 	return time.NewTimer(d)
 }
 

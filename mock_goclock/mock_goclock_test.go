@@ -1,12 +1,10 @@
 package mock_goclock
 
 import "testing"
-import "github.com/golang/mock/gomock"
 import "time"
 
 func TestSleep(t *testing.T) {
-	var ctrl = gomock.NewController(t)
-	var clock = NewMockClock(ctrl)
+	var clock = NewMockClock()
 	var done = make(chan bool)
 	go func() {
 		done <- true
@@ -22,10 +20,12 @@ func TestSleep(t *testing.T) {
 
 	}
 }
-func TestAfter(t *testing.T) {
-	var ctrl = gomock.NewController(t)
-	var clock = NewMockClock(ctrl)
+func TestAfterCompleted(t *testing.T) {
+	var clock = NewMockClock()
+
+	//After should be completed
 	var done = clock.After(time.Second * 1000)
+	//Shift a time
 	clock.Force(time.Second * 1100)
 	select {
 	case <-time.After(time.Nanosecond):
@@ -33,8 +33,12 @@ func TestAfter(t *testing.T) {
 	case <-done:
 
 	}
-	//
-	done = clock.After(time.Second * 1000)
+}
+func TestAfterNotCompleted(t *testing.T) {
+	var clock = NewMockClock()
+	//After should not be completed
+	var done = clock.After(time.Second * 1000)
+	//Shift a time
 	clock.Force(time.Second * 900)
 	select {
 	case <-time.After(time.Nanosecond):
