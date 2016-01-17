@@ -27,11 +27,11 @@ Example usage of goclock:
 	}
 
 	func main() {
-		var clock = goclock.New()
+		var clock = goclock.NewClock()
 		NewA(clock)
 	}
 
-For mock_goclock has special method for shift time:
+MockClock-type has special method for shift time:
 
 	Force(d time.Duration)
 

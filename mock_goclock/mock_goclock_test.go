@@ -44,6 +44,11 @@ func TestAfterNotCompleted(t *testing.T) {
 	case <-time.After(time.Nanosecond):
 
 	case <-done:
-		t.Error("After don't be complete")
+		t.Error("After don't be completed")
 	}
+}
+
+func TestFuncExists(t *testing.T) {
+	var clock = NewMockClock()
+	clock.Clock.Now()
 }

@@ -7,8 +7,8 @@ type Ticker interface {
 }
 
 type Timer interface {
-	Reset(d time.Duration) bool
-	Stop() bool
+	/*Reset(d time.Duration) bool
+	Stop() bool*/
 }
 
 type Clock interface {
@@ -37,7 +37,7 @@ type Clock interface {
 type _Clock struct {
 }
 
-func New() Clock {
+func NewClock() Clock {
 	return new(_Clock)
 }
 

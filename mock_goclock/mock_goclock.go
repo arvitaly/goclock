@@ -2,9 +2,12 @@ package mock_goclock
 
 import (
 	"time"
+
+	"github.com/arvitaly/goclock"
 )
 
 type MockClock struct {
+	goclock.Clock
 	now    time.Time
 	timers []*MockTimer
 }
@@ -17,7 +20,7 @@ type MockTick struct {
 }
 
 func NewMockClock() *MockClock {
-	var m = new(MockClock)
+	var m = &MockClock{Clock: goclock.NewClock()}
 	return m
 }
 func NewMockTimer(clock *MockClock, d time.Duration) *MockTimer {
@@ -28,6 +31,7 @@ func NewMockTimer(clock *MockClock, d time.Duration) *MockTimer {
 	clock.timers = append(clock.timers, t)
 	return t
 }
+
 func (m *MockClock) Force(d time.Duration) {
 	m.now = m.now.Add(d)
 	var timers2 = []*MockTimer{}
@@ -43,6 +47,15 @@ func (m *MockClock) Force(d time.Duration) {
 func (m *MockClock) Sleep(d time.Duration) {
 	var timer = NewMockTimer(m, d)
 	<-timer.ready
+}
+func (m *MockClock) AfterFunc(d time.Duration, f func()) goclock.Timer {
+	var timer = NewMockTimer(m, d)
+	go func() {
+		//TODO Add timer stop
+		<-timer.ready
+		f()
+	}()
+	return timer
 }
 func (m *MockClock) After(d time.Duration) <-chan time.Time {
 	var timer = NewMockTimer(m, d)
