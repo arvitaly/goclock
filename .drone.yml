@@ -1,5 +1,5 @@
 build:
-  image: golang:latest
+  image: efe259eff861
   commands:
     - go get
     - go build
