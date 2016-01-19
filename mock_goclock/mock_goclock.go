@@ -19,6 +19,7 @@ type MockTimer struct {
 type MockTick struct {
 }
 
+//Create
 func NewMockClock() *MockClock {
 	var m = &MockClock{Clock: goclock.NewClock()}
 	return m
