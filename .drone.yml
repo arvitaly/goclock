@@ -1,5 +1,5 @@
 build:
-  image: efe259eff861
+  image: docker-electron-go:latest
   commands:
     - go get
     - go build
